@@ -10,6 +10,8 @@ export function ProfileForm () {
             <p>Full name: {form.firstName} {form.lastName}</p>
             <input value={form.firstName} onChange={updateFirst} placeholder="First Name" />
             <input value={form.lastName} onChange={updateLast} placeholder="Last Name" />
+            <button onClick={() => console.log(form)}></button>
+            
         </div>
     )
 }
