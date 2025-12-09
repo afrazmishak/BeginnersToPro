@@ -1,15 +1,28 @@
 import { useState } from "react"
 
 export function ToDoList() {
-    const [todo, setTodo] = useState(['Buy Milk'])
+    const [todo, setTodo] = useState([
+        { text: 'Buy Milk', checked: false }
+    ])
+
     const [textAddToDo, setTextAddToDo] = useState('')
 
     const addTodo = (newTodo) => {
-        if (!newTodo.trim()) return
+        if (!newTodo.text.trim()) return;
         setTodo(prev => [...prev, newTodo])
         setTextAddToDo('')
     }
-    const removeFirst = () => setTodo(prev => prev.slice(1))
+    const removeSelected = () => {
+        setTodo(prev => prev.filter(item => !item.checked))
+    }
+
+    const toggleChecked = (index) => {
+        setTodo(prev =>
+            prev.map((item, id) =>
+                id === index ? { ...item, checked: !item.checked } : item
+            )
+        )
+    }
 
     return (
         <div>
@@ -19,11 +32,19 @@ export function ToDoList() {
                 onChange={(e) => setTextAddToDo(e.target.value)}
             />
 
-            <button onClick={() => addTodo(textAddToDo)}>Add</button>
-            <button onClick={removeFirst}>Remove First</button>
+            <button onClick={() => addTodo({
+                text: textAddToDo,
+                checked: false
+            })}>Add</button>
+
+            <button onClick={removeSelected}>Remove</button>
+
             <ul>
-                {todo.map((t, i) => (
-                    <li key={i}>{t}</li>
+                {todo.map((t, id) => (
+                    <li key={id}>
+                        <input type="checkbox" checked={t.checked} onChange={() => toggleChecked(id)} />
+                        {t.text}
+                    </li>
                 ))}
             </ul>
         </div>
