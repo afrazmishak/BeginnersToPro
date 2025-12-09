@@ -5,12 +5,13 @@ import { ToDoList } from './components/ToDoList'
 import { ProfileForm } from './components/ProfileForm'
 import { StopWatch } from './components/StopWatch'
 import { ToggleButton } from './components/ToggleButton'
+import { Form } from './projectfiles/Form'
 
 function App() {
 
   return (
     <>
-      <ToDoList />
+      <Form />
       </>
   )
 }
