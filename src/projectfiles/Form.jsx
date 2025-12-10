@@ -7,15 +7,28 @@ export function Form() {
         lastName: ''
     })
 
-    const addNewName = () => {
+    const addNewName = async () => {
         if(!formData.firstName.trim() || !formData.lastName.trim()) return;
 
-        setName(prev => [...prev, formData])
-        
-        setFormData({
-            firstName: '',
-            lastName: ''
-        })
+        try {
+            const response = await fetch('http://localhost:5000/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+
+            const savedUser = await response.json();
+            setName(prev => [...prev, savedUser])
+
+            setFormData({
+                firstName: '',
+                lastName: ''
+            })
+        } catch (error) {
+            console.error('Error saving user:', error);
+        }
     }
 
     return (
