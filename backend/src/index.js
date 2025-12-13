@@ -13,7 +13,9 @@ const pool = require('./db');
 const app = express();
 
 //ALLOWS TO REQUEST THE BACKEND FROM REACT APP
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:5173']
+}));
 
 //JSON BODY FROM REQUEST
 app.use(express.json());
@@ -27,17 +29,14 @@ app.get('/', (req, res) => {
 app.post('/users', async (req, res) => {
   
   //EXTARCT VALUES FROM INCOMING JSON
-  const { firstName, lastName } = req.body;
-  
-  //VALIDATES INPUT || RETURNS 400 = BAD REQUEST IF FIELDS ARE MISSING
-  if (!firstName || !lastName) return res.status(400).json({ error: 'Missing data' });
+  const { firstName, lastName, email, phone_number } = req.body;
 
   //TRY-CATCH FOR DATABASE QUERY
   try {
     //SENDS A PARAMETERIZED SQL QUERY TO POSTGRESQL TO PREVENT SQL INJECTION
     const result = await pool.query(
-      'INSERT INTO users (first_name, last_name) VALUES ($1, $2) RETURNING *',
-      [firstName, lastName]
+      'INSERT INTO users (first_name, last_name, email, phone_number) VALUES ($1, $2, $3, $4) RETURNING *',
+      [firstName, lastName, email, phone_number]
     );
 
     //ON SUCCESS, RETURNS 201 CREATED WITH THE NEW USER OBJECT
