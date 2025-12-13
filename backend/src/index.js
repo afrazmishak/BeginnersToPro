@@ -29,14 +29,14 @@ app.get('/', (req, res) => {
 app.post('/users', async (req, res) => {
   
   //EXTARCT VALUES FROM INCOMING JSON
-  const { firstName, lastName, email, phone_number } = req.body;
+  const { firstName, lastName, email, phone_number, dateOfBirth } = req.body;
 
   //TRY-CATCH FOR DATABASE QUERY
   try {
     //SENDS A PARAMETERIZED SQL QUERY TO POSTGRESQL TO PREVENT SQL INJECTION
     const result = await pool.query(
-      'INSERT INTO users (first_name, last_name, email, phone_number) VALUES ($1, $2, $3, $4) RETURNING *',
-      [firstName, lastName, email, phone_number]
+      'INSERT INTO users (first_name, last_name, email, phone_number, dateOfBirth) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [firstName, lastName, email, phone_number, dateOfBirth]
     );
 
     //ON SUCCESS, RETURNS 201 CREATED WITH THE NEW USER OBJECT

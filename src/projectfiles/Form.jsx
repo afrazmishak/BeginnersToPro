@@ -6,7 +6,8 @@ export function Form() {
         firstName: '',
         lastName: '',
         email: '',
-        phone_number: ''
+        phone_number: '',
+        dateOfBirth: ''
     })
 
     const addNewName = async () => {
@@ -28,7 +29,8 @@ export function Form() {
                 firstName: '',
                 lastName: '',
                 email: '',
-                phone_number: ''
+                phone_number: '',
+                dateOfBirth: ''
             })
         } catch (error) {
             console.error('Error saving user:', error);
@@ -66,7 +68,7 @@ export function Form() {
             </div>
 
             <div>
-                <input 
+                <input
                     type="text"
                     placeholder="Email"
                     value={formData.email}
@@ -79,7 +81,7 @@ export function Form() {
             </div>
 
             <div>
-                <input 
+                <input
                     type="text"
                     placeholder="Phone Number"
                     value={formData.phone_number}
@@ -88,7 +90,21 @@ export function Form() {
                             ...prev,
                             phone_number: e.target.value
                         }))
-                    } />
+                    }
+                />
+            </div>
+
+            <div>
+                <input
+                    type="date"
+                    value={formData.dateOfBirth}
+                    onChange={(e) =>
+                        setFormData(prev => ({
+                            ...prev,
+                            dateOfBirth: e.target.value
+                        }))
+                    }
+                />
             </div>
 
             <button onClick={addNewName}>Submit</button>
